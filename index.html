@@ -32,14 +32,14 @@ const params = new URLSearchParams(location.search);
 const CODE = params.get("code");
 
 function registerOffline(code) {
-  let data = JSON.parse(localStorage.getItem("attendance") || "[]");
+  let data = JSON.parse(localStorage.getItem("attendance015") || "[]");
 
   data.push({
     code: code,
     time: Date.now()
   });
 
-  localStorage.setItem("attendance", JSON.stringify(data));
+  localStorage.setItem("attendance015", JSON.stringify(data));
 
   document.getElementById("msg").innerHTML =
     "✅ تم تسجيل الحضور (أوفلاين)";
@@ -58,7 +58,7 @@ function syncData() {
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
   }).then(() => {
-    localStorage.removeItem("attendance");
+    localStorage.removeItem("attendance015");
   });
 }
 </script>
