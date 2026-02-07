@@ -53,7 +53,7 @@ function syncData() {
   let data = JSON.parse(localStorage.getItem("attendance015") || "[]");
   if (!data.length) return;
 
-  fetch("https://script.google.com/macros/s/AKfycbxRB4XChChftuMj5T_xMzDRJLrDFrJTGD-LKuaImdbE-TfpL9KNFwiZpSPfc8KFnBg1/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbymJve-vhr_QjeBds1aFc2nvRaWt9Khypn1hExdkm_O_xPUVqR3hCohDYUC88lWxlm3Bg/exec", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
