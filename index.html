@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Attendance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="manifest" href="manifest.json">
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  margin-top: 80px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📌 تسجيل الحضور</h2>
+<div id="msg">جاري التسجيل...</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const CODE = params.get("code");
+
+function registerOffline(code) {
+  let data = JSON.parse(localStorage.getItem("attendance") || "[]");
+
+  data.push({
+    code: code,
+    time: Date.now()
+  });
+
+  localStorage.setItem("attendance", JSON.stringify(data));
+
+  document.getElementById("msg").innerHTML =
+    "✅ تم تسجيل الحضور (أوفلاين)";
+}
+
+registerOffline(CODE);
+
+window.addEventListener("online", syncData);
+
+function syncData() {
+  let data = JSON.parse(localStorage.getItem("attendance015") || "[]");
+  if (!data.length) return;
+
+  fetch("https://script.google.com/macros/s/AKfycbxRB4XChChftuMj5T_xMzDRJLrDFrJTGD-LKuaImdbE-TfpL9KNFwiZpSPfc8KFnBg1/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  }).then(() => {
+    localStorage.removeItem("attendance");
+  });
+}
+</script>
+
+</body>
+</html>
